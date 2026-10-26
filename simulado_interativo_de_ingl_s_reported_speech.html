@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulado de Reported Speech - Inglês 9º Ano</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #002147;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #000;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* Scrollbar Estilizada */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #dc2626;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #b91c1c;
+    }
+
+    /* Header e Navegação */
+    header {
+      width: 100%;
+      max-width: 850px;
+      margin-bottom: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo {
+      max-width: 180px;
+      height: auto;
+      margin-bottom: 15px;
+      display: block;
+      border: 3px solid #dc2626;
+      border-radius: 10px;
+      background-color: #001026;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    h1 {
+      color: #ffffff;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
+
+    .nav-grid {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      border: 2px solid #ffffff;
+      background-color: #001530;
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background-color: #003366;
+    }
+
+    .nav-btn.active {
+      border-color: #f59e0b;
+      box-shadow: 0 0 8px #f59e0b;
+    }
+
+    .nav-btn.correct {
+      background-color: #16a34a !important;
+      border-color: #16a34a !important;
+      color: #fff;
+    }
+
+    .nav-btn.incorrect {
+      background-color: #dc2626 !important;
+      border-color: #dc2626 !important;
+      color: #fff;
+    }
+
+    /* Container Principal */
+    .container {
+      background-color: #ffffff;
+      border: 3px solid #dc2626;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 850px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+    }
+
+    .question-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #000;
+    }
+
+    .topic-badge {
+      font-size: 0.85rem;
+      font-weight: 600;
+      background-color: #eff6ff;
+      color: #1d4ed8;
+      padding: 4px 10px;
+      border-radius: 12px;
+      border: 1px solid #bfdbfe;
+    }
+
+    /* Enunciado */
+    .statement {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      color: #000;
+      font-weight: 500;
+    }
+
+    /* Opções de Resposta */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 12px 15px;
+      border: 2px solid #cbd5e1;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s;
+      background-color: #fff;
+    }
+
+    .option-item:hover {
+      background-color: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .option-item input[type="radio"] {
+      margin-top: 4px;
+      margin-right: 12px;
+      cursor: pointer;
+    }
+
+    .option-text {
+      font-size: 1rem;
+      color: #000;
+      line-height: 1.4;
+    }
+
+    .option-item.selected {
+      border-color: #dc2626;
+      background-color: #fef2f2;
+    }
+
+    .option-item.correct-bg {
+      background-color: #dcfce7 !important;
+      border-color: #16a34a !important;
+    }
+
+    .option-item.incorrect-bg {
+      background-color: #fee2e2 !important;
+      border-color: #dc2626 !important;
+    }
+
+    /* Justificativa / Feedback */
+    .feedback-box {
+      display: none;
+      background-color: #f8fafc;
+      border-left: 4px solid #0284c7;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #000;
+    }
+
+    .feedback-box.show {
+      display: block;
+    }
+
+    .feedback-box strong {
+      color: #0284c7;
+    }
+
+    /* Botões de Ação na Ordem Obrigatória: [ Next ] [ Check ] [ Previous ] */
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .btn {
+      background-color: #dc2626;
+      color: #ffffff;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      flex: 1;
+      max-width: 150px;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: #b91c1c;
+    }
+
+    .btn:disabled {
+      background-color: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    .btn-finish {
+      background-color: #16a34a;
+      max-width: 200px;
+    }
+
+    .btn-finish:hover {
+      background-color: #15803d;
+    }
+
+    /* Modal de Resultado Final */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.75);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background-color: #ffffff;
+      border: 3px solid #dc2626;
+      border-radius: 10px;
+      max-width: 650px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      color: #000;
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+    }
+
+    .modal-header h2 {
+      color: #dc2626;
+      font-size: 1.8rem;
+    }
+
+    .score-display {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 15px;
+      color: #0f172a;
+    }
+
+    .stats-container {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+      background-color: #f8fafc;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .stat-value.correct { color: #16a34a; }
+    .stat-value.incorrect { color: #dc2626; }
+
+    .diagnostics-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #0f172a;
+    }
+
+    .diagnostics-list {
+      list-style-type: disc;
+      padding-left: 20px;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .modal-footer {
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+      .action-buttons {
+        flex-direction: row;
+      }
+      .btn {
+        padding: 10px 10px;
+        font-size: 0.85rem;
+      }
+      .nav-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+      }
+      .question-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="master.png" alt="Logo Master" class="logo" onerror="this.onerror=null; this.src='https://placehold.co/180x60/001026/ffffff?text=LOGO+MASTER';">
+    <h1>Simulado Especial de Reported Speech - 20 Questões</h1>
+    <div class="nav-grid" id="nav-grid">
+      <!-- Botões de 1 a 20 gerados via JS -->
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="question-header">
+      <span class="question-title" id="question-title">Questão 1 de 20</span>
+      <span class="topic-badge" id="topic-badge">Tópico</span>
+    </div>
+
+    <!-- Enunciado -->
+    <div class="statement" id="statement-text">
+      <!-- Enunciado será carregado aqui -->
+    </div>
+
+    <!-- Opções -->
+    <div class="options-list" id="options-list">
+      <!-- Opções serão carregadas aqui -->
+    </div>
+
+    <!-- Justificativa -->
+    <div class="feedback-box" id="feedback-box">
+      <strong>Justificativa Pedagógica:</strong> <span id="feedback-text"></span>
+    </div>
+
+    <!-- Botões de Ação: [ Next ] [ Check ] [ Previous ] -->
+    <div class="action-buttons">
+      <button class="btn" id="btn-next" onclick="nextQuestion()">Next</button>
+      <button class="btn" id="btn-check" onclick="checkAnswer()">Check</button>
+      <button class="btn" id="btn-prev" onclick="prevQuestion()">Previous</button>
+    </div>
+  </main>
+
+  <!-- Modal de Resultado Final -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Resultado do Simulado</h2>
+      </div>
+      <div class="score-display" id="score-display">
+        Sua Nota: 0,0 / 10,0
+      </div>
+      <div class="stats-container">
+        <div class="stat-item">
+          <div>Acertos</div>
+          <div class="stat-value correct" id="stat-correct">0 (0%)</div>
+        </div>
+        <div class="stat-item">
+          <div>Erros</div>
+          <div class="stat-value incorrect" id="stat-incorrect">0 (0%)</div>
+        </div>
+      </div>
+      <div class="diagnostics-title">Diagnóstico por Categoria do Reported Speech:</div>
+      <ul class="diagnostics-list" id="diagnostics-list">
+        <!-- Recomendações dinâmicas -->
+      </ul>
+      <div class="modal-footer">
+        <button class="btn btn-finish" onclick="restartQuiz()">Refazer Simulado</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // BANCO DE DADOS COMPLETO - 20 QUESTÕES DE REPORTED SPEECH (GABARITO ORIGINAL VARIADO DE A A E)
+    const rawQuestions = [
+      {
+        id: 1,
+        topic: "Afirmativas: Simple Present",
+        statement: "Considere a frase dita por Mary no discurso direto:\n<b>\"I love studying foreign languages here in this school,\" said Mary.</b>\n\nAssinale a opção que transpõe essa declaração corretamente para o discurso indireto (Reported Speech):",
+        correctKey: "A",
+        options: {
+          A: "Mary said that she loved studying foreign languages there in that school.",
+          B: "Mary said that she loves studying foreign languages here in this school.",
+          C: "Mary said that I loved studying foreign languages there in that school.",
+          D: "Mary said that she had loved studying foreign languages here in that school.",
+          E: "Mary told that she loved studying foreign languages there in this school."
+        },
+        justification: "Resposta correta: A. No Reported Speech: Simple Present ('love') recua para Simple Past ('loved'); os demonstrativos/advérbios mudam ('here' -> 'there', 'this' -> 'that') e o pronome 'I' passa para 'she'."
+      },
+      {
+        id: 2,
+        topic: "Afirmativas: Present Continuous",
+        statement: "Transponha a seguinte frase falada por Peter para o discurso indireto:\n<b>\"We are preparing a big environmental project today,\" said Peter.</b>",
+        correctKey: "C",
+        options: {
+          A: "Peter said that they are preparing a big environmental project today.",
+          B: "Peter said that we were preparing a big environmental project that day.",
+          C: "Peter said that they were preparing a big environmental project that day.",
+          D: "Peter said that they had prepared a big environmental project that day.",
+          E: "Peter told that they were preparing a big environmental project yesterday."
+        },
+        justification: "Resposta correta: C. O Present Continuous ('are preparing') recua para Past Continuous ('were preparing'); o pronome 'we' altera-se para 'they' e o advérbio 'today' torna-se 'that day'."
+      },
+      {
+        id: 3,
+        topic: "Afirmativas: Present Perfect",
+        statement: "Considere a fala do cientista durante uma entrevista:\n<b>\"Our team has completed all the laboratory tests this week,\" stated the scientist.</b>\n\nQual é a transposição gramaticalmente perfeita para o Reported Speech?",
+        correctKey: "E",
+        options: {
+          A: "The scientist stated that our team completed all the laboratory tests that week.",
+          B: "The scientist stated that their team has completed all the laboratory tests this week.",
+          C: "The scientist stated that their team completed all the laboratory tests this week.",
+          D: "The scientist stated that their team had completed all the laboratory tests this week.",
+          E: "The scientist stated that their team had completed all the laboratory tests that week."
+        },
+        justification: "Resposta correta: E. O Present Perfect ('has completed') recua para Past Perfect ('had completed'); 'our team' torna-se 'their team' e 'this week' vira 'that week'."
+      },
+      {
+        id: 4,
+        topic: "Afirmativas: Simple Past",
+        statement: "Examine a frase dita por Julia:\n<b>\"I visited my grandparents in Canada yesterday,\" Julia said.</b>\n\nQual opção apresenta a conversão correta no discurso indireto?",
+        correctKey: "B",
+        options: {
+          A: "Julia said that she visited her grandparents in Canada the day before.",
+          B: "Julia said that she had visited her grandparents in Canada the day before.",
+          C: "Julia said that she has visited her grandparents in Canada yesterday.",
+          D: "Julia said that I had visited my grandparents in Canada the day before.",
+          E: "Julia told that she had visited her grandparents in Canada yesterday."
+        },
+        justification: "Resposta correta: B. O Simple Past ('visited') recua para Past Perfect ('had visited'); o possessivo 'my' vira 'her' e o advérbio 'yesterday' transforma-se em 'the day before' (ou 'the previous day')."
+      },
+      {
+        id: 5,
+        topic: "Afirmativas: Modais (Will -> Would)",
+        statement: "Analise a promessa feita pelo prefeito em seu discurso:\n<b>\"The government will build a new public library next year,\" declared the mayor.</b>\n\nAssinale a alternativa correta no discurso indireto:",
+        correctKey: "D",
+        options: {
+          A: "The mayor declared that the government will build a new public library next year.",
+          B: "The mayor declared that the government would build a new public library next year.",
+          C: "The mayor declared that the government builded a new public library the following year.",
+          D: "The mayor declared that the government would build a new public library the following year.",
+          E: "The mayor declared that the government had built a new public library the next year."
+        },
+        justification: "Resposta correta: D. O verbo modal 'will' flexiona-se para 'would'; a expressão temporal 'next year' recua/ajusta-se para 'the following year' (ou 'the next year')."
+      },
+      {
+        id: 6,
+        topic: "Afirmativas: Modais (Can -> Could)",
+        statement: "Observe a frase falada pelo técnico do laboratório:\n<b>\"Students can perform this experiment safely now,\" explained the instructor.</b>\n\nAssinale a opção que transpõe essa sentença adequadamente:",
+        correctKey: "A",
+        options: {
+          A: "The instructor explained that students could perform that experiment safely then.",
+          B: "The instructor explained that students can perform that experiment safely now.",
+          C: "The instructor explained that students could perform this experiment safely now.",
+          D: "The instructor explained that students would perform that experiment safely then.",
+          E: "The instructor explained that students could perform that experiment safely today."
+        },
+        justification: "Resposta correta: A. O modal 'can' recua para 'could'; o demonstrativo 'this' vira 'that' e o advérbio de tempo 'now' altera-se para 'then'."
+      },
+      {
+        id: 7,
+        topic: "Afirmativas: Modais (Must / Have to -> Had to)",
+        statement: "Considere o aviso do professor aos alunos antes da prova:\n<b>\"You must submit your final essays by tomorrow morning,\" said the teacher.</b>\n\nQual é a transposição correta para o Reported Speech?",
+        correctKey: "C",
+        options: {
+          A: "The teacher said that we must submit our final essays by the following morning.",
+          B: "The teacher said that they have to submit their final essays by tomorrow morning.",
+          C: "The teacher said that students had to submit their final essays by the following morning.",
+          D: "The teacher said that students would submit their final essays by tomorrow morning.",
+          E: "The teacher told that students had to submit your final essays by the following morning."
+        },
+        justification: "Resposta correta: C. O modal de obrigação 'must' recua para 'had to'; o pronome possessivo 'your' altera-se para 'their' e 'tomorrow morning' vira 'the following morning'."
+      },
+      {
+        id: 8,
+        topic: "Imperativo Afirmativo (Commands)",
+        statement: "Leia a ordem dada pelo médico ao paciente:\n<b>\"Take your prescribed medicine every eight hours!\" advised the doctor.</b>\n\nQual é a forma adequada de relatar esse conselho/instrução no Reported Speech?",
+        correctKey: "E",
+        options: {
+          A: "The doctor advised the patient that he takes his prescribed medicine every eight hours.",
+          B: "The doctor advised the patient taking his prescribed medicine every eight hours.",
+          C: "The doctor advised to the patient to take your prescribed medicine every eight hours.",
+          D: "The doctor advised the patient that he took his prescribed medicine every eight hours.",
+          E: "The doctor advised the patient to take his prescribed medicine every eight hours."
+        },
+        justification: "Resposta correta: E. O imperativo afirmativo no Reported Speech exige a estrutura: 'reporting verb + objeto + to + verbo na forma base' ('advised the patient to take...'). O possessivo 'your' altera-se para 'his'."
+      },
+      {
+        id: 9,
+        topic: "Imperativo Negativo (Commands)",
+        statement: "Considere a instrução da bibliotecária aos estudantes:\n<b>\"Don't make noise in the study hall!\" requested the librarian.</b>\n\nAssinale a opção que transpõe essa proibição corretamente:",
+        correctKey: "B",
+        options: {
+          A: "The librarian requested the students don't make noise in the study hall.",
+          B: "The librarian requested the students not to make noise in the study hall.",
+          C: "The librarian requested the students to not making noise in the study hall.",
+          D: "The librarian requested the students that they didn't make noise in the study hall.",
+          E: "The librarian requested to students not to make noise in the study hall."
+        },
+        justification: "Resposta correta: B. O imperativo negativo em ordens/pedidos indiretos é estruturado com 'not to + verbo na forma base' ('requested the students not to make...')."
+      },
+      {
+        id: 10,
+        topic: "Perguntas Yes/No (Simple Present)",
+        statement: "Veja a pergunta feita pelo guia turístico:\n<b>\"Do you speak English fluently?\" — asked the tour guide.</b>\n\nQual alternativa realiza a transposição correta dessa interrogação para o Reported Speech?",
+        correctKey: "D",
+        options: {
+          A: "The tour guide asked if did I speak English fluently.",
+          B: "The tour guide asked that I spoke English fluently.",
+          C: "The tour guide asked if I speak English fluently.",
+          D: "The tour guide asked if I spoke English fluently.",
+          E: "The tour guide asked whether spoke I English fluently."
+        },
+        justification: "Resposta correta: D. Para perguntas do tipo Yes/No: insere-se a conjunção 'if' (ou 'whether'), elimina-se o auxiliar 'do' passando a frase para a ordem direta (sujeito + verbo), e o verbo 'speak' recua para o Simple Past ('spoke')."
+      },
+      {
+        id: 11,
+        topic: "Perguntas Yes/No (Present Continuous)",
+        statement: "Considere a pergunta feita pela mãe ao filho:\n<b>\"Are you doing your homework right now?\" — asked his mother.</b>\n\nAssinale a transposição correta no discurso indireto:",
+        correctKey: "A",
+        options: {
+          A: "His mother asked if he was doing his homework right then.",
+          B: "His mother asked if was he doing his homework right now.",
+          C: "His mother asked that he was doing his homework right then.",
+          D: "His mother asked if he is doing his homework right then.",
+          E: "His mother asked whether he had done his homework right now."
+        },
+        justification: "Resposta correta: A. Usa-se 'if', altera-se para a ordem direta ('he was doing' em vez de 'was he doing'), o tempo recua para o Past Continuous e 'right now' vira 'right then'."
+      },
+      {
+        id: 12,
+        topic: "Perguntas Yes/No (Present Perfect)",
+        statement: "Analise a pergunta feita pela entrevistadora ao candidato:\n<b>\"Have you ever worked in an international company before?\" — asked the interviewer.</b>\n\nAssinale a alternativa correta:",
+        correctKey: "C",
+        options: {
+          A: "The interviewer asked if have I ever worked in an international company before.",
+          B: "The interviewer asked that I had ever worked in an international company before.",
+          C: "The interviewer asked if I had ever worked in an international company before.",
+          D: "The interviewer asked whether had I ever worked in an international company before.",
+          E: "The interviewer asked if I ever worked in an international company before."
+        },
+        justification: "Resposta correta: C. A pergunta Yes/No com Present Perfect exige a conjunção 'if', a ordem declarativa (sujeito + verbo) e o recuo do tempo verbal para Past Perfect ('had ever worked')."
+      },
+      {
+        id: 13,
+        topic: "Perguntas Wh- (Simple Present)",
+        statement: "Considere a pergunta feita pelo policial ao motorista:\n<b>\"Where do you live in this city?\" — asked the police officer.</b>\n\nComo fica essa frase no Reported Speech?",
+        correctKey: "E",
+        options: {
+          A: "The police officer asked where did I live in that city.",
+          B: "The police officer asked if where I lived in that city.",
+          C: "The police officer asked where I live in this city.",
+          D: "The police officer asked where do I live in that city.",
+          E: "The police officer asked where I lived in that city."
+        },
+        justification: "Resposta correta: E. Em perguntas com 'Wh-': mantém-se o pronome interrogativo ('where'), elimina-se o auxiliar 'do', adota-se a ordem direta (sujeito + verbo), 'live' vira 'lived' e 'this city' passa a ser 'that city'."
+      },
+      {
+        id: 14,
+        topic: "Perguntas Wh- (Simple Past)",
+        statement: "Examine a pergunta da jornalista ao diretor do filme:\n<b>\"Why did you choose this location last year?\" — asked the reporter.</b>\n\nAssinale a opção que apresenta a transposição correta:",
+        correctKey: "B",
+        options: {
+          A: "The reporter asked why did he choose that location the previous year.",
+          B: "The reporter asked why he had chosen that location the previous year.",
+          C: "The reporter asked why he chose that location last year.",
+          D: "The reporter asked if why he had chosen this location the previous year.",
+          E: "The reporter asked why had he chosen that location the previous year."
+        },
+        justification: "Resposta correta: B. O pronome 'why' é mantido; o Simple Past ('did choose') recua para Past Perfect ('had chosen') na ordem direta (sujeito antes do verbo); 'this' vira 'that' e 'last year' vira 'the previous year'."
+      },
+      {
+        id: 15,
+        topic: "Perguntas Wh- (Modal Will)",
+        statement: "Considere a pergunta do cliente ao vendedor:\n<b>\"When will you deliver my new computer?\" — asked the customer.</b>\n\nQual é a forma correta no discurso indireto?",
+        correctKey: "D",
+        options: {
+          A: "The customer asked when would he deliver his new computer.",
+          B: "The customer asked when will he deliver my new computer.",
+          C: "The customer asked if when he would deliver his new computer.",
+          D: "The customer asked when he would deliver his new computer.",
+          E: "The customer asked when he delivers his new computer."
+        },
+        justification: "Resposta correta: D. Mantém-se o 'when', inverte-se para a ordem declarativa (sujeito 'he' + modal 'would' em vez da estrutura interrogativa 'would he') e o pronome 'my' recua para 'his'."
+      },
+      {
+        id: 16,
+        topic: "Perguntas Wh- (Modal Can)",
+        statement: "Leia a pergunta do turista ao recepcionista do hotel:\n<b>\"How can I find the nearest metro station from here?\" — asked the tourist.</b>\n\nAssinale a alternativa correta no Reported Speech:",
+        correctKey: "A",
+        options: {
+          A: "The tourist asked how he could find the nearest metro station from there.",
+          B: "The tourist asked how could he find the nearest metro station from there.",
+          C: "The tourist asked if how he can find the nearest metro station from here.",
+          D: "The tourist asked how he can find the nearest metro station from there.",
+          E: "The tourist asked where he could find the nearest metro station from here."
+        },
+        justification: "Resposta correta: A. Mantém-se 'how'; coloca-se o sujeito 'he' antes do modal 'could' (ordem direta); o modal 'can' recua para 'could' e 'here' transforma-se em 'there'."
+      },
+      {
+        id: 17,
+        topic: "Afirmativas: Past Continuous",
+        statement: "Veja a fala do testemunha no tribunal:\n<b>\"I was walking my dog when the accident happened,\" said the witness.</b>\n\nQual é a transposição gramaticalmente precisa para o discurso indireto?",
+        correctKey: "C",
+        options: {
+          A: "The witness said that he was walking his dog when the accident happened.",
+          B: "The witness said that he is walking his dog when the accident had happened.",
+          C: "The witness said that he had been walking his dog when the accident had happened.",
+          D: "The witness said that I had been walking my dog when the accident happened.",
+          E: "The witness told that he had walked his dog when the accident happened."
+        },
+        justification: "Resposta correta: C. No recuo clássico do Reported Speech, o Past Continuous ('was walking') transforma-se em Past Perfect Continuous ('had been walking') e o Simple Past ('happened') recua para Past Perfect ('had happened')."
+      },
+      {
+        id: 18,
+        topic: "Afirmativas: Modais (May -> Might)",
+        statement: "Analise a previsão dada pelo meteorologista:\n<b>\"It may rain heavily in this region tomorrow,\" announced the weather forecaster.</b>\n\nAssinale a opção correta no discurso indireto:",
+        correctKey: "E",
+        options: {
+          A: "The forecaster announced that it may rain heavily in that region tomorrow.",
+          B: "The forecaster announced that it might rain heavily in this region the next day.",
+          C: "The forecaster announced that it will rain heavily in that region the next day.",
+          D: "The forecaster announced that it would rain heavily in that region tomorrow.",
+          E: "The forecaster announced that it might rain heavily in that region the next day."
+        },
+        justification: "Resposta correta: E. O modal de probabilidade 'may' recua para 'might'; a expressão demonstrativa 'this region' passa para 'that region' e 'tomorrow' ajusta-se para 'the next day' ou 'the following day'."
+      },
+      {
+        id: 19,
+        topic: "Verbos de Ligação: Say vs. Tell",
+        statement: "Considere as duas estruturas de discurso indireto abaixo:\n1. <i>Daniel _____ me that he had lost his house keys.</i>\n2. <i>Daniel _____ that he had lost his house keys.</i>\n\nAssinale a opção que preenche corretamente e respectivamente as lacunas:",
+        correctKey: "B",
+        options: {
+          A: "1. said / 2. told",
+          B: "1. told / 2. said",
+          C: "1. said to / 2. told to",
+          D: "1. told to / 2. said me",
+          E: "1. asked / 2. told"
+        },
+        justification: "Resposta correta: B. O verbo 'tell' exige um objeto indireto direto sem preposição ('told me'), enquanto o verbo 'say' é seguido diretamente pela oração subordinada com 'that' ('said that...')."
+      },
+      {
+        id: 20,
+        topic: "Perguntas Wh- com 'Past Perfect'",
+        statement: "Examine a pergunta do detetive ao suspeito:\n<b>\"What had you done before the police arrived?\" — asked the detective.</b>\n\nAssinale a alternativa que apresenta a conversão correta para o Reported Speech:",
+        correctKey: "D",
+        options: {
+          A: "The detective asked what had he done before the police arrived.",
+          B: "The detective asked what he did before the police had arrived.",
+          C: "The detective asked if what he had done before the police had arrived.",
+          D: "The detective asked what he had done before the police had arrived.",
+          E: "The detective asked what he has done before the police arrived."
+        },
+        justification: "Resposta correta: D. O Past Perfect ('had done') não recua mais tempo verbal (permanece 'had done'); o Simple Past ('arrived') vira Past Perfect ('had arrived') e a frase adota a ordem declarativa (sujeito 'he' antes do auxiliar 'had')."
+      }
+    ];
+
+    // ESTADO DA APLICAÇÃO E EMBARALHAMENTO DO GABARITO (Fisher-Yates)
+    let processedQuestions = [];
+    let userAnswers = {};
+    let checkedQuestions = {};
+    let currentQuestionIndex = 0;
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function initQuizData() {
+      processedQuestions = rawQuestions.map((q) => {
+        const originalKeys = ['A', 'B', 'C', 'D', 'E'];
+        const optionsList = originalKeys.map(key => ({
+          originalKey: key,
+          text: q.options[key]
+        }));
+
+        // Embaralhamento Fisher-Yates das 5 opções por questão
+        const shuffledOptions = shuffleArray(optionsList);
+
+        const newLetterLabels = ['A', 'B', 'C', 'D', 'E'];
+        let mappedCorrectLetter = '';
+
+        const finalOptions = shuffledOptions.map((opt, index) => {
+          const currentLabel = newLetterLabels[index];
+          if (opt.originalKey === q.correctKey) {
+            mappedCorrectLetter = currentLabel;
+          }
+          return {
+            label: currentLabel,
+            text: opt.text,
+            originalKey: opt.originalKey
+          };
+        });
+
+        return {
+          ...q,
+          displayOptions: finalOptions,
+          correctDisplayLetter: mappedCorrectLetter
+        };
+      });
+    }
+
+    function buildNavGrid() {
+      const navGrid = document.getElementById('nav-grid');
+      navGrid.innerHTML = '';
+      for (let i = 0; i < processedQuestions.length; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn';
+        btn.id = `nav-btn-${i}`;
+        btn.innerText = i + 1;
+        btn.onclick = () => jumpToQuestion(i);
+        navGrid.appendChild(btn);
+      }
+      updateNavStatus();
+    }
+
+    function updateNavStatus() {
+      for (let i = 0; i < processedQuestions.length; i++) {
+        const btn = document.getElementById(`nav-btn-${i}`);
+        if (!btn) continue;
+        btn.classList.remove('active', 'correct', 'incorrect');
+
+        if (i === currentQuestionIndex) {
+          btn.classList.add('active');
+        }
+
+        if (checkedQuestions[i]) {
+          const isCorrect = userAnswers[i] === processedQuestions[i].correctDisplayLetter;
+          if (isCorrect) {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('incorrect');
+          }
+        }
+      }
+    }
+
+    function renderQuestion(index) {
+      const q = processedQuestions[index];
+
+      document.getElementById('question-title').innerText = `Questão ${index + 1} de 20`;
+      document.getElementById('topic-badge').innerText = q.topic;
+
+      document.getElementById('statement-text').innerHTML = q.statement.replace(/\n/g, '<br>');
+
+      const optionsContainer = document.getElementById('options-list');
+      optionsContainer.innerHTML = '';
+
+      const isChecked = checkedQuestions[index];
+
+      q.displayOptions.forEach((opt) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'option-item';
+
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = `option-${index}`;
+        radio.value = opt.label;
+        radio.id = `opt-${opt.label}`;
+        radio.disabled = !!isChecked;
+
+        if (userAnswers[index] === opt.label) {
+          radio.checked = true;
+          itemDiv.classList.add('selected');
+        }
+
+        if (isChecked) {
+          if (opt.label === q.correctDisplayLetter) {
+            itemDiv.classList.add('correct-bg');
+          } else if (userAnswers[index] === opt.label) {
+            itemDiv.classList.add('incorrect-bg');
+          }
+        } else {
+          itemDiv.onclick = () => selectOption(index, opt.label);
+        }
+
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'option-text';
+        labelSpan.innerHTML = `<strong>${opt.label})</strong> ${opt.text}`;
+
+        itemDiv.appendChild(radio);
+        itemDiv.appendChild(labelSpan);
+        optionsContainer.appendChild(itemDiv);
+      });
+
+      const feedbackBox = document.getElementById('feedback-box');
+      const feedbackText = document.getElementById('feedback-text');
+      if (isChecked) {
+        let textJust = q.justification;
+        textJust = textJust.replace(/Resposta correta: [A-E]\./, `Resposta correta: ${q.correctDisplayLetter}.`);
+        feedbackText.innerText = textJust;
+        feedbackBox.classList.add('show');
+      } else {
+        feedbackBox.classList.remove('show');
+      }
+
+      const btnCheck = document.getElementById('btn-check');
+      btnCheck.disabled = !userAnswers[index] || isChecked;
+
+      const btnNext = document.getElementById('btn-next');
+      if (index === processedQuestions.length - 1) {
+        btnNext.innerText = 'Finish';
+        btnNext.classList.add('btn-finish');
+      } else {
+        btnNext.innerText = 'Next';
+        btnNext.classList.remove('btn-finish');
+      }
+
+      const btnPrev = document.getElementById('btn-prev');
+      btnPrev.disabled = index === 0;
+
+      updateNavStatus();
+    }
+
+    function selectOption(qIndex, label) {
+      if (checkedQuestions[qIndex]) return;
+      userAnswers[qIndex] = label;
+
+      const items = document.querySelectorAll('.option-item');
+      items.forEach(item => item.classList.remove('selected'));
+
+      const radio = document.getElementById(`opt-${label}`);
+      if (radio) {
+        radio.checked = true;
+        radio.closest('.option-item').classList.add('selected');
+      }
+
+      document.getElementById('btn-check').disabled = false;
+    }
+
+    function checkAnswer() {
+      if (!userAnswers[currentQuestionIndex]) return;
+      checkedQuestions[currentQuestionIndex] = true;
+      renderQuestion(currentQuestionIndex);
+    }
+
+    function jumpToQuestion(index) {
+      currentQuestionIndex = index;
+      renderQuestion(currentQuestionIndex);
+    }
+
+    function nextQuestion() {
+      if (currentQuestionIndex < processedQuestions.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion(currentQuestionIndex);
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion(currentQuestionIndex);
+      }
+    }
+
+    function finishQuiz() {
+      let totalCorrect = 0;
+      let categoryErrors = {
+        "Afirmativas": { errors: 0, total: 0 },
+        "Imperativo / Ordens": { errors: 0, total: 0 },
+        "Perguntas Yes/No": { errors: 0, total: 0 },
+        "Perguntas Wh-": { errors: 0, total: 0 },
+        "Verbos Say/Tell": { errors: 0, total: 0 }
+      };
+
+      processedQuestions.forEach((q, idx) => {
+        let cat = "Afirmativas";
+        if (q.topic.includes("Imperativo")) cat = "Imperativo / Ordens";
+        else if (q.topic.includes("Yes/No")) cat = "Perguntas Yes/No";
+        else if (q.topic.includes("Wh-")) cat = "Perguntas Wh-";
+        else if (q.topic.includes("Say vs. Tell")) cat = "Verbos Say/Tell";
+
+        categoryErrors[cat].total++;
+
+        const userAns = userAnswers[idx];
+        if (userAns === q.correctDisplayLetter) {
+          totalCorrect++;
+        } else {
+          categoryErrors[cat].errors++;
+        }
+      });
+
+      const totalQuestions = processedQuestions.length;
+      const totalIncorrect = totalQuestions - totalCorrect;
+      
+      // Nota final valendo 10,0
+      const score = ((totalCorrect / totalQuestions) * 10).toFixed(1);
+
+      const correctPct = Math.round((totalCorrect / totalQuestions) * 100);
+      const incorrectPct = Math.round((totalIncorrect / totalQuestions) * 100);
+
+      document.getElementById('score-display').innerText = `Sua Nota: ${score.replace('.', ',')} / 10,0 (${totalCorrect} de 20 acertos)`;
+      document.getElementById('stat-correct').innerText = `${totalCorrect} (${correctPct}%)`;
+      document.getElementById('stat-incorrect').innerText = `${totalIncorrect} (${incorrectPct}%)`;
+
+      const diagnosticsList = document.getElementById('diagnostics-list');
+      diagnosticsList.innerHTML = '';
+
+      let needsRevision = false;
+
+      for (const cat in categoryErrors) {
+        const data = categoryErrors[cat];
+        if (data.total > 0) {
+          const errorPct = (data.errors / data.total) * 100;
+          if (errorPct > 30) {
+            needsRevision = true;
+            const li = document.createElement('li');
+            let recommendationText = "";
+
+            if (cat === "Afirmativas") {
+              recommendationText = "<strong>Frases Afirmativas/Negativas:</strong> Revisar a tabela de recuo dos tempos verbais (Present -> Past, Present Perfect -> Past Perfect, Will -> Would, Can -> Could) e a mudança dos advérbios de tempo/espaço (today -> that day, now -> then, yesterday -> the day before).";
+            } else if (cat === "Imperativo / Ordens") {
+              recommendationText = "<strong>Comandos e Imperativos:</strong> Treinar as estruturas de ordens indiretas: 'tell/ask + objeto + to + verb' para afirmativas e 'not to + verb' para proibições.";
+            } else if (cat === "Perguntas Yes/No") {
+              recommendationText = "<strong>Interrogações Yes/No:</strong> Praticar a inserção da conjunção 'if' ou 'whether' e lembrar que a pergunta passa para a ordem declarativa (sujeito + verbo), eliminando os auxiliares 'do/does/did'.";
+            } else if (cat === "Perguntas Wh-") {
+              recommendationText = "<strong>Interrogações Wh- (What, Where, Why, When, How):</strong> Manter a palavra interrogativa e inverter a estrutura para a ordem direta (sujeito antes do verbo), aplicando o recuo do tempo verbal.";
+            } else if (cat === "Verbos Say/Tell") {
+              recommendationText = "<strong>Uso de Say vs. Tell:</strong> Lembre-se que 'tell' exige objeto direto de pessoa ('told HIM that...'), enquanto 'say' liga-se diretamente à oração ('said that...').";
+            }
+
+            li.innerHTML = recommendationText;
+            diagnosticsList.appendChild(li);
+          }
+        }
+      }
+
+      if (!needsRevision) {
+        const li = document.createElement('li');
+        li.innerHTML = "<strong>Excepcional!</strong> Você obteve um rendimento superior a 70% em todas as subdivisões do Reported Speech. Domínio completo de tempos verbais, modais, imperativo e estruturas interrogativas!";
+        diagnosticsList.appendChild(li);
+      }
+
+      document.getElementById('modal-overlay').style.display = 'flex';
+    }
+
+    function restartQuiz() {
+      userAnswers = {};
+      checkedQuestions = {};
+      currentQuestionIndex = 0;
+      document.getElementById('modal-overlay').style.display = 'none';
+      initQuizData();
+      buildNavGrid();
+      renderQuestion(0);
+    }
+
+    window.onload = function() {
+      initQuizData();
+      buildNavGrid();
+      renderQuestion(0);
+    };
+  </script>
+</body>
+</html>
